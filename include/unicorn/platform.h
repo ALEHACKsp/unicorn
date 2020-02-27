@@ -154,6 +154,8 @@ typedef _W64 unsigned int  uintptr_t;
 
 // sys/time.h compatibility
 #if defined(_MSC_VER)
+
+#if defined(UNICORN_INTERNAL)
 #include <sys/timeb.h>
 #include <winsock2.h>
 #include <windows.h>
@@ -166,6 +168,8 @@ static int gettimeofday(struct timeval* t, void* timezone)
     t->tv_usec = 1000*timebuffer.millitm;
     return 0;
 }
+#endif
+
 #else
 #include <sys/time.h>
 #endif
@@ -173,6 +177,7 @@ static int gettimeofday(struct timeval* t, void* timezone)
 // unistd.h compatibility
 #if defined(_MSC_VER)
 
+#if defined(UNICORN_INTERNAL)
 static int usleep(uint32_t usec)
 {
     HANDLE timer;
@@ -192,6 +197,7 @@ static int usleep(uint32_t usec)
 
     return 0;
 }
+#endif
 
 #else
 #include <unistd.h>
